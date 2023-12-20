@@ -1,16 +1,13 @@
 package org.example.controller;
 
-import org.example.annotation.LuisBody;
-import org.example.annotation.LuisController;
-import org.example.annotation.LuisGetMethod;
-import org.example.annotation.LuisPostMethod;
+import org.example.annotation.*;
 import org.example.model.Product;
 import org.example.service.IService;
 
 @LuisController
 public class HelloWordController {
 
-    private IService service;
+    private final IService service;
 
     public HelloWordController(IService service){
         this.service = service;
@@ -19,6 +16,20 @@ public class HelloWordController {
     @LuisGetMethod("/hello")
     public String sayHelloWorld(){
         return "Hello World";
+    }
+
+    @LuisGetMethod("/hello/{name}")
+    public String sayHelloWorldTo(@LuisPathVariable("name") String name){
+        return "Hello World to: " + name;
+    }
+    @LuisGetMethod("/square/{value}")
+    public String square(@LuisPathVariable("value") int val){
+        return "Square: " + (val*val);
+    }
+
+    @LuisGetMethod("/square_floats/{value}")
+    public String square(@LuisPathVariable("value") double val){
+        return "Square: " + (val*val);
     }
 
     @LuisGetMethod("/test")
@@ -38,7 +49,6 @@ public class HelloWordController {
 
     @LuisPostMethod("/product")
     public Product saveProduct(@LuisBody Product newProduct){
-        System.out.println(newProduct);
         return newProduct;
     }
 
